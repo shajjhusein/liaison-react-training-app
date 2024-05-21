@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// src/App.tsx
+import React from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  RouteObject,
+} from "react-router-dom";
+import Login from "./pages/Login";
+import Profile from "./pages/Profile";
+import PrivateRoute from "./components/PrivateRoute";
+import DataTable from "./pages/DataTable";
+import CreateUser from "./pages/CreateUser";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const routes: RouteObject[] = [
+  { path: "/", element: <Login /> },
+  {
+    path: "/profile",
+    element: <PrivateRoute />, // Use PrivateRoute here
+    children: [{ path: "", element: <Profile /> }],
+  },
+  {
+    path: "/data-table",
+    element: <PrivateRoute />, // Use PrivateRoute here
+    children: [{ path: "", element: <DataTable /> }],
+  },
+  {
+    path: "/create-user",
+    element: <PrivateRoute />, // Use PrivateRoute here
+    children: [{ path: "", element: <CreateUser /> }],
+  },
+];
+
+const router = createBrowserRouter(routes);
+
+const App: React.FC = () => {
+  return <RouterProvider router={router} />;
+};
 
 export default App;
